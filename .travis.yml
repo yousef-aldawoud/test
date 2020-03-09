@@ -6,7 +6,7 @@ php:
 services:
   - docker
 env:
-    - DOCKER_COMPOSE_VERSION=1.24.1
+    - DOCKER_COMPOSE_VERSION=3
 
 before-install:
   - sudo rm /usr/local/bin/docker-compose
