@@ -42,6 +42,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: lara-php
+    command: bash -c "cp /var/www/html/.env.example .env"
+    command: bash -c "php /var/www/html/artisan key:generate"
     volumes:
       - ./:/var/www/html
     ports:
