@@ -1,31 +1,32 @@
 language: php
-
 php:
-  - 7.2
-
+- 7.2
 services:
-  - docker
+- docker
 env:
-    - DOCKER_COMPOSE_VERSION=1.25.4
-
+- DOCKER_COMPOSE_VERSION=1.25.4
 before-install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-
+- sudo rm /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
+  -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
 install:
-  - sudo apt-get update
-
+- sudo apt-get update
 before_script:
-  - chmod 777 -R storage
-  - cp .env.travis .env
-  - composer self-update
-  - composer install --no-interaction
-  - php artisan key:generate
-  - ls /usr/local/bin
-  - sudo systemctl start docker 
-  - sudo docker-compose up -d
-
+- chmod 777 -R storage
+- cp .env.travis .env
+- composer self-update
+- composer install --no-interaction
+- php artisan key:generate
+- ls /usr/local/bin
+- sudo systemctl start docker
+- sudo docker-compose up -d
 script:
-  - sudo docker exec lara-php php /var/www/html/vendor/bin/phpunit
+- sudo docker exec lara-php php /var/www/html/vendor/bin/phpunit
+deploy:
+  provider: heroku
+  app: vast-bastion-39782
+  api_key:
+    secure: eckc+cYWpJep38DaynXjGELSQJZzJjaDrR6WHW8GIdVdunz7VJSHpDjyDmnYS9SRPwacwRgWCUYsDQXqRJN20FXERRgWxtGDZdV6P/3HMTn3SSVk5F5CiDSd2xexeS07qPxmAJnnmTHExzleu8fkyhWhbrK/NgF1tQj+/VUIGMQkqlsYPY7qyB+NdLxkCqxSJy2QvwnIpSq9X95VdgpQx60w+LrX8Ixuo0w1QNJ0Uzd9dSddGbO/H40I3uU5RHEFe51i58+RCGmUCnVNtlGhjW9hlGRUbldA4cOjtGU8+JY/nlWgENQmS9Htq+VyS5rAqwRa6xs8mHSX55wdX+QNgMpoysbkZ3X9A20kZDgRcW7h97/mELUDygal3LeEp5bZB9ykE2xAsZq6kVzBNY8UETZ0wD60tQmlvkyTV82C3H819kVXIZ8nEuJPXIxYBT+yzkpM0P57Kqn6cWe6Q2vFJMNMioQU4+JYRG3aGnRsaJ8XbfTQBVwL2YyFnMZBVL3I6/yN1fL07ubk6ukbIvZ/jmJkDwOV0y5KeBsBv2hND6fpVXpNudm/gB0xUIfe30+Ou+kKNnwbkH7tZg/9GSEzn6/vkv+7pFBsUmyvKr0X5XWNTn9j40cWofOBc5tnHycmo/gf7OaFNLuVcach5jZXI0iFU5aqZCScuZ26SuGRn5g=
+  on: test
